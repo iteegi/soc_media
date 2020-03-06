@@ -3,6 +3,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
+from django.urls import reverse
 
 
 class Image(models.Model):
@@ -26,6 +27,10 @@ class Image(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super(Image, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        """Get absolute url."""
+        return reverse('images:detail', args=[self.id, self.slug])
 
     def __str__(self):
         """Change line."""
